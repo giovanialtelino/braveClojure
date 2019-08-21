@@ -144,3 +144,52 @@
 (println (into {:favorite-animal "kitty"} {:least-favorite-smell "dog"
                                           :relationship-with-teenager "creepy"}))
 
+(println (conj [0] [1]))
+
+(println (into [0] [1]))
+
+(println (conj {:time "midnight"} [:place "ye olde cemetarium"]))
+
+(defn my-conj
+  [target & additions]
+  (into target additions))
+
+(println (my-conj [0] 1 2 3))
+
+(println (apply max [0 12 2]))
+
+(defn my-into
+  [target additions]
+  (apply conj target additions))
+
+(println (my-into [0] [1 2 3]))
+
+(def add10 (partial + 10))
+(println (add10 3))
+(println (add10 5))
+
+(def add-missing-elements
+  (partial conj ["water" "earth" "air"]))
+
+(println (add-missing-elements "unobtainium" "adamantium"))
+
+(defn my-partial
+  [partialized-fn & args]
+  (fn [& more-args]
+    (apply partialized-fn (into args more-args))))
+
+(def add20 (my-partial + 20))
+
+(println (add20 3))
+
+(defn lousy-logger
+  [log-level message]
+  (condp = log-level
+    :warn (clojure.string/lower-case message)
+    :emergency (clojure.string/upper-case message)))
+
+(def warn (partial lousy-logger :emergency))
+
+(println (warn "red light"))
+
+
